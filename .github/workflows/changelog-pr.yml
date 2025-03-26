@@ -9,9 +9,15 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 📋 Get Changes between Tagsaaa
-        id: changes
-        uses: simbo/changes-between-tags-action@v1
+      - name: Get commits since last release
+        id: commits
+        run: |
+          LAST_TAG=$(git describe --tags --abbrev=0)
+          echo "Last tag: $LAST_TAG"
+          COMMITS=$(git log $LAST_TAG..HEAD --pretty=format:"- %s (%an)" --no-merges)
+          echo "COMMITS<<EOF" >> $GITHUB_ENV
+          echo "$COMMITS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Post Changelog to PR
         env:
@@ -19,4 +25,4 @@ jobs:
         run: |
           PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           echo "Posting comment to PR #$PR_NUMBER"
-          gh pr comment $PR_NUMBER --body "${{ steps.changes.outputs.changes }}"
+          gh pr comment $PR_NUMBER --body "${{ env.COMMITS }}"
