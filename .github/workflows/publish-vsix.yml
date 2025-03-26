@@ -51,7 +51,6 @@ jobs:
           echo "$COMMITS" > commits.txt
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
           cat commits.txt >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUTTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
