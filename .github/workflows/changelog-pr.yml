@@ -9,7 +9,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: 📋 Get Changes between Tags
+      - name: 📋 Get Changes between Tagsaaa
         id: changes
         uses: simbo/changes-between-tags-action@v1
 
