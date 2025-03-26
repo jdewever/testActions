@@ -1,0 +1,44 @@
+#!/bin/bash
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+NC="\033[0m"
+BLUE="\033[1;34m"
+ORANGE="\033[0;33m"
+
+ends_with_ts_or_tsx=".*\.tsx?$" # ts/tsx regex
+eslint_exit_code=0
+
+# Get the list of staged files
+staged_ts_tsx_files=$(git diff --cached --diff-filter=d --name-only | grep -E "$ends_with_ts_or_tsx") # The staged ts/tsx files
+other_staged_files=$(git diff --cached --diff-filter=d --name-only | grep -v -E "$ends_with_ts_or_tsx") # All the other staged file e.g. json
+
+# If there are staged ts/tsx files, run ESLint
+if [[ -n "$staged_ts_tsx_files" ]]; then
+  echo -e "${ORANGE}Running ESLint... ${NC}"
+  ./node_modules/.bin/eslint $staged_ts_tsx_files --quiet --fix
+  eslint_exit_code=$?
+  echo "-Exit code ESLint: ${eslint_exit_code}"
+
+  # Add only the previously staged files back to the staging area if they were fixed
+  fixed_files=$(git diff --name-only | grep -E "$staged_ts_tsx_files")
+  echo -e "${ORANGE}\nDebugging:${NC}"
+  echo -e "${BLUE}Staged files:${NC}"
+  echo "$staged_ts_tsx_files"
+  echo -e "${BLUE}Fixed files:${NC}"
+  echo "$fixed_files"
+
+  if [[ -n "$fixed_files" ]]; then
+    echo "-Add fixed files" 
+    git add $fixed_files
+  fi
+fi
+
+# If there are no errors detected by ESLint, go ahead and commit all the changes
+if [[ $eslint_exit_code -eq 0 ]]; then
+  echo -e "${GREEN} ✔ Committed successfully (͠≖ ͜ʖ͠≖) ${NC}"
+  exit 0
+else
+  echo -e "${RED} ❌ Couldn't commit changes due to above errors ¯\_(ツ)_/¯ ${NC}"
+  echo -e "${BLUE} For ESLint errors run 'npm run eslint' or 'npx eslint' in the console ${NC}"
+  exit 1
+fi

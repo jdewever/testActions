@@ -1,0 +1,15 @@
+{
+	"name": "globis-lsp-server",
+	"version": "0.1.0",
+	"description": "Language server for Globis LS extension.",
+	"license": "MIT",
+	"author": "Jonas De Wever",
+	"engines": {
+		"node": "*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/globisnv/globis-code-completion"
+	},
+	"scripts": {}
+}

@@ -1,0 +1,95 @@
+{
+	"name": "globis-lsp",
+	"displayName": "Globis LSP",
+	"version": "0.4.2",
+	"description": "A VSCode extension providing autocompletion, hover, and signature help for Servoy scripting at Globis NV.",
+	"author": "Jonas De Wever",
+	"license": "MIT",
+	"type": "commonjs",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/globisnv/globis-code-completion"
+	},
+	"categories": [
+		"Programming Languages"
+	],
+	"keywords": [
+		"autocompletion",
+		"servoy"
+	],
+	"engines": {
+		"vscode": "^1.97.0"
+	},
+	"main": "./client/out/extension.js",
+	"contributes": {
+		"languages": [
+			{
+				"id": "javascript",
+				"aliases": [
+					"JavaScript",
+					"js"
+				],
+				"extensions": [
+					".js"
+				],
+				"configuration": "./language-configuration.json"
+			}
+		],
+		"commands": [
+			{
+				"command": "globis-lsp.restart",
+				"title": "Globis LSP: Restart Language Server"
+			}
+		],
+		"configuration": [
+			{
+				"title": "Globis LSP",
+				"properties": {
+					"globis-lsp.typeComparison.allowUnknownActuals": {
+						"type": "boolean",
+						"default": false,
+						"markdownDescription": "When actual types in a comparison are `any` or `unknown`, see them as correct and throw no diagnostic error."
+					}
+				}
+			}
+		],
+		"grammars": [],
+		"configurationDefaults": {
+			"[javascript]": {
+				"editor.parameterHints.enabled": true
+			}
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"package": "vsce package",
+		"compile": "tsc -b",
+		"watch": "tsc -b -w",
+		"eslint": "eslint .",
+		"eslint-fix": "eslint . --fix",
+		"prepare": "git config core.hooksPath ./git-hooks"
+	},
+	"devDependencies": {
+		"@eslint/js": "^9.21.0",
+		"@stylistic/eslint-plugin": "^4.2.0",
+		"@tsconfig/node-lts": "^22.0.1",
+		"@types/acorn": "^4.0.6",
+		"@types/doctrine": "^0.0.9",
+		"@types/espree": "^10.1.0",
+		"@types/node": "^22.13.5",
+		"@types/vscode": "^1.97.0",
+		"@vscode/vsce": "^3.2.2",
+		"eslint": "^9.21.0",
+		"typescript": "^5.8.2",
+		"typescript-eslint": "^8.26.0"
+	},
+	"dependencies": {
+		"acorn-walk": "^8.3.4",
+		"doctrine": "^3.0.0",
+		"espree": "^10.3.0",
+		"vscode-languageclient": "^9.0.1",
+		"vscode-languageserver": "^9.0.1",
+		"vscode-languageserver-textdocument": "^1.0.12",
+		"vscode-uri": "^3.1.0"
+	}
+}
