@@ -14,11 +14,11 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v5
         with:
           configuration: "configs/changelog-config.json"
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT }}
 
       - name: Post Changelog to PR
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
         run: |
           PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           echo "Posting comment to PR #$PR_NUMBER"
