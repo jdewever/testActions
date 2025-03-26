@@ -33,10 +33,18 @@ jobs:
         id: commits
         run: |
           REPO_URL="https://github.com/${{ github.repository }}"
-          LAST_TAG=$(git describe --tags --abbrev=0)
-          echo "Last tag: $LAST_TAG"
-          COMMITS=$(git log $LAST_TAG..HEAD --pretty=format:"- [%h]($REPO_URL/commit/%H) %s (%an)" --no-merges)
-          echo "COMMITS<<EOF" >> $GITHUB_ENV
+          CURRENT_TAG=${GITHUB_REF##*/}
+          PREV_TAG=$(git tag --sort=-creatordate | grep -v "$CURRENT_TAG" | head -n 1)
+          echo "Current tag: $CURRENT_TAG"
+          echo "Previous tag: $PREV_TAG"
+
+          if [ -z "$PREV_TAG" ]; then
+            echo "No previous tag found. Showing all history."
+            COMMITS=$(git log --pretty=format:"- [%h]($REPO_URL/commit/%H) %s (%an)" --no-merges)
+          else
+            COMMITS=$(git log "$PREV_TAG".."$CURRENT_TAG" --pretty=format:"- [%h]($REPO_URL/commit/%H) %s (%an)" --no-merges)
+          fi
+
           echo "$COMMITS" >> commits.txt
           echo "changelog<<EOF" >> $GITHUB_OUTPUT
           cat commits.txt >> $GITHUB_OUTPUT
