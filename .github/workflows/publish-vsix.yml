@@ -34,6 +34,7 @@ jobs:
         uses: mikepenz/release-changelog-builder-action@v5
         with:
           configuration: "configs/changelog-config.json"
+          token: ${{ secrets.PAT }}
 
       - name: Create GitHub Release
         id: create_release
@@ -49,4 +50,4 @@ jobs:
           draft: false
           prerelease: false
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT }}
