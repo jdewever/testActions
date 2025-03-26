@@ -1,7 +1,7 @@
 {
 	"name": "globis-lsp",
 	"displayName": "Globis LSP",
-	"version": "0.4.4",
+	"version": "0.4.5",
 	"description": "A VSCode extension providing autocompletion, hover, and signature help for Servoy scripting at Globis NV.",
 	"author": "Jonas De Wever",
 	"license": "MIT",
