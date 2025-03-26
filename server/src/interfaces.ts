@@ -6,6 +6,7 @@ export interface IResult {
     variables: IVariable[]
     classes: IClass[]
 }
+
 export interface IFunction {
     name: string
     params: IParam[]
