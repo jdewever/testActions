@@ -5,7 +5,7 @@ import { levenshteinDistance } from './util/levenshteinDistance';
 
 export interface Store {
     objects: Map<string, ServoyObject>
-}
+} 
 
 export class IntelliStore {
     private static _instance: IntelliStore;
