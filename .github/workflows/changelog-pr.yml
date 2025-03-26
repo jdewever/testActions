@@ -9,12 +9,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: "Generate Changelog"
-        id: gen_changelog
-        uses: mikepenz/release-changelog-builder-action@v5
-        with:
-          configuration: "configs/changelog-config.json"
-          token: ${{ secrets.PAT }}
+      - name: 📋 Get Changes between Tags
+        id: changes
+        uses: simbo/changes-between-tags-action@v1
 
       - name: Post Changelog to PR
         env:
@@ -22,4 +19,4 @@ jobs:
         run: |
           PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           echo "Posting comment to PR #$PR_NUMBER"
-          gh pr comment $PR_NUMBER --body "${{ steps.gen_changelog.outputs.changelog }}"
+          gh pr comment $PR_NUMBER --body "${{ steps.changes.outputs.changes }}"
