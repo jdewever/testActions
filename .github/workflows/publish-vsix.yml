@@ -29,9 +29,16 @@ jobs:
         id: find-vsix
         run: echo "VSIX_FILE=$(ls *.vsix | head -n 1)" >> $GITHUB_ENV
 
-      - name: 📋 Get Changes between Tags
-        id: changes
-        uses: simbo/changes-between-tags-action@v1
+      - name: Get commits since last release
+        id: commits
+        run: |
+          REPO_URL="https://github.com/${{ github.repository }}"
+          LAST_TAG=$(git describe --tags --abbrev=0)
+          echo "Last tag: $LAST_TAG"
+          COMMITS=$(git log $LAST_TAG..HEAD --pretty=format:"- [%h]($REPO_URL/commit/%H) %s (%an)" --no-merges)
+          echo "COMMITS<<EOF" >> $GITHUB_ENV
+          echo "$COMMITS" >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
 
       - name: Create GitHub Release
         id: create_release
@@ -43,7 +50,7 @@ jobs:
           body: |
             Automated release of version ${{ github.ref_name }}
 
-            ${{ steps.changes.outputs.changes }}
+            ${{ env.COMMITS }}
           draft: false
           prerelease: false
         env:
