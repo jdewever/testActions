@@ -37,10 +37,10 @@ jobs:
           echo "Last tag: $LAST_TAG"
           COMMITS=$(git log $LAST_TAG..HEAD --pretty=format:"- [%h]($REPO_URL/commit/%H) %s (%an)" --no-merges)
           echo "COMMITS<<EOF" >> $GITHUB_ENV
-          echo "$COMMITS" >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          echo "Commits: $COMMITS"
-          echo "Commits: ${{ env.COMMITS }}"
+          echo "$COMMITS" >> commits.txt
+          echo "changelog<<EOF" >> $GITHUB_OUTPUT
+          cat commits.txt >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         id: create_release
@@ -52,7 +52,7 @@ jobs:
           body: |
             Automated release of version ${{ github.ref_name }}
 
-            ${{ env.COMMITS }}
+            ${{ steps.commits.outputs.changelog }}
           draft: false
           prerelease: false
         env:
