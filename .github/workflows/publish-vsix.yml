@@ -43,7 +43,7 @@ jobs:
           tag_name: ${{ github.ref_name }}
           name: Release ${{ github.ref_name }}
           body: |
-            Automated release of ${{ github.ref_name }}
+            Automated release of version ${{ github.ref_name }}
 
             ${{ steps.build_changelog.outputs.changelog }}
           draft: false
