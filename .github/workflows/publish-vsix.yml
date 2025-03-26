@@ -39,6 +39,7 @@ jobs:
           echo "COMMITS<<EOF" >> $GITHUB_ENV
           echo "$COMMITS" >> $GITHUB_ENV
           echo "EOF" >> $GITHUB_ENV
+          echo "$COMMITS"
 
       - name: Create GitHub Release
         id: create_release
