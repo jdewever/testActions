@@ -10,6 +10,7 @@ export interface Store {
 export class IntelliStore {
     private static _instance: IntelliStore;
     private _workspaceFolder: string;
+    
 
     private _store: Store;
 
