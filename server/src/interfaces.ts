@@ -7,6 +7,8 @@ export interface IResult {
     classes: IClass[]
 }
 
+
+
 export interface IFunction {
     name: string
     params: IParam[]
