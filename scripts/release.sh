@@ -18,7 +18,7 @@ gray=$(tput setaf 7)
 reset=$(tput sgr0)
 
 # Make sure semver is available
-if ! npx semver --version &>/dev/null; then
+if ! npx semver &>/dev/null; then
   echo "${red}Error:${reset} 'semver' is not installed. Run: npm install semver"
   exit 1
 fi
