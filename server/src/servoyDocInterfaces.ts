@@ -6,6 +6,7 @@ export interface ServoyDoc {
     };
 }
 
+
 export interface ServoyDocObject {
     _clientSupport?: string;
     _deprecated?: string;
