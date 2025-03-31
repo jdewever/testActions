@@ -12,6 +12,7 @@ export class Config {
         this._conf = conf;
         console.log('Config initialized');
         console.dir(this._conf);
+        
     }
 
     getConf = (): ExtensionConfig => {
